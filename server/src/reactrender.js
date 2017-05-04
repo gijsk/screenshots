@@ -1,6 +1,9 @@
 const { addReactScripts } = require("./reactutils");
 const ReactDOMServer = require("react-dom/server");
 const { getGitRevision } = require("./linker");
+const React = require("react");
+// TODO: would it be better to append l10n stuff to the model here,
+// rather than tagging it on the req in server.js? Seems maybe better?
 
 exports.render = function(req, res, page) {
   let modelModule = require("./" + page.modelModuleName);
@@ -16,7 +19,8 @@ exports.render = function(req, res, page) {
       backend: req.backend,
       gitRevision: getGitRevision(),
       csrfToken,
-      abTests: req.abTests
+      abTests: req.abTests,
+      messages: req.messages
     }, jsonModel);
     serverModel = Object.assign({
       authenticated: !!req.deviceId,
@@ -24,7 +28,8 @@ exports.render = function(req, res, page) {
       staticLink: req.staticLink,
       staticLinkWithHost: req.staticLinkWithHost,
       csrfToken,
-      abTests: req.abTests
+      abTests: req.abTests,
+      messages: req.messages
     }, serverModel);
     if (req.query.data == "json") {
       if (req.query.pretty !== undefined) {

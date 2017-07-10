@@ -1,3 +1,4 @@
+/* globals controller */
 const reactruntime = require("../../reactruntime");
 const sendEvent = require("../../browser-send-event.js");
 const React = require("react");
